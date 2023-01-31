@@ -14,6 +14,15 @@ public class ItemMapper {
                 .price(createItemDto.getPrice()).build();
     }
 
+    public Item toModel(ItemDto itemDto) {
+        return Item.builder()
+                .id(itemDto.getId())
+                .name(itemDto.getName())
+                .specification(itemDto.getSpecification())
+                .price(itemDto.getPrice())
+                .build();
+    }
+
     public ItemDto toDto(Item item) {
         return ItemDto.builder()
                 .id(item.getId())

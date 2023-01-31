@@ -5,6 +5,7 @@ import by.bsuir.drugstore.dto.ItemDto;
 import by.bsuir.drugstore.mapper.ItemMapper;
 import by.bsuir.drugstore.model.Image;
 import by.bsuir.drugstore.model.Item;
+import by.bsuir.drugstore.repository.ImageRepository;
 import by.bsuir.drugstore.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ItemService {
 
     private final ItemMapper itemMapper;
     private final ItemRepository itemRepository;
+    private final ImageRepository imageRepository;
 
     public void createItem(CreateItemDto createItemDto, MultipartFile file) {
         Image image = new Image();
@@ -42,5 +44,21 @@ public class ItemService {
         return itemRepository.findAll().stream()
                 .map(itemMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public void updateItem(ItemDto itemDto, MultipartFile file) {
+        Image image = imageRepository.findById(itemDto.getImageId()).orElseThrow();
+
+        try {
+            image.setBytes(file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Item updatedItem = itemMapper.toModel(itemDto);
+
+        updatedItem.setImage(image);
+
+        itemRepository.save(updatedItem);
     }
 }
