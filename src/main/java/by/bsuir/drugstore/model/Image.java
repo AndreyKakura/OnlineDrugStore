@@ -16,7 +16,8 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Lob
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column(length = 100000000)
     private byte[] bytes;
 
     @OneToOne
