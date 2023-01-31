@@ -3,17 +3,19 @@ package by.bsuir.drugstore.controller;
 import by.bsuir.drugstore.dto.AuthenticationRequestDto;
 import by.bsuir.drugstore.dto.AuthenticationResponseDto;
 import by.bsuir.drugstore.dto.RegistrationRequestDto;
+import by.bsuir.drugstore.exception.BadRequestException;
 import by.bsuir.drugstore.service.AuthenticationService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,15 +24,26 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/registration")
-    public ResponseEntity<AuthenticationResponseDto> register(
-            @RequestBody RegistrationRequestDto request
-    ) {
+    public ResponseEntity<AuthenticationResponseDto> register(@RequestBody @Valid RegistrationRequestDto request,
+                                                              BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException(bindingResult.getFieldErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
+        }
+
         return ResponseEntity.ok(authenticationService.register(request));
     }
+
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDto> authenticate(
-            @RequestBody @Valid AuthenticationRequestDto request
-    ) {
+    public ResponseEntity<AuthenticationResponseDto> authenticate(@RequestBody @Valid AuthenticationRequestDto request,
+                                                                  BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException(bindingResult.getFieldErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
+        }
+
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 

@@ -4,6 +4,7 @@ import by.bsuir.drugstore.config.JwtService;
 import by.bsuir.drugstore.dto.AuthenticationRequestDto;
 import by.bsuir.drugstore.dto.AuthenticationResponseDto;
 import by.bsuir.drugstore.dto.RegistrationRequestDto;
+import by.bsuir.drugstore.exception.BadRequestException;
 import by.bsuir.drugstore.model.User;
 import by.bsuir.drugstore.repository.RoleRepository;
 import by.bsuir.drugstore.repository.UserRepository;
@@ -26,6 +27,9 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponseDto register(RegistrationRequestDto request) {
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            throw new BadRequestException("Person with username " + request.getUsername() + " already exists.");
+        }
         User user = User.builder()
                 .name(request.getName())
                 .surname(request.getSurname())
