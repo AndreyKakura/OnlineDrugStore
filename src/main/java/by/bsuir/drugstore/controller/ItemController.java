@@ -3,12 +3,8 @@ package by.bsuir.drugstore.controller;
 import by.bsuir.drugstore.dto.CreateItemDto;
 import by.bsuir.drugstore.dto.ItemDto;
 import by.bsuir.drugstore.exception.BadRequestException;
-import by.bsuir.drugstore.model.Image;
-import by.bsuir.drugstore.model.Item;
-import by.bsuir.drugstore.service.ImageService;
 import by.bsuir.drugstore.service.ItemService;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +25,8 @@ public class ItemController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createCarPart(@ModelAttribute @Valid CreateItemDto createItemDto, BindingResult bindingResult,
-                                           @RequestParam MultipartFile file) {
+    public ResponseEntity<?> createItem(@ModelAttribute @Valid CreateItemDto createItemDto, BindingResult bindingResult,
+                                        @RequestParam MultipartFile file) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getFieldErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
