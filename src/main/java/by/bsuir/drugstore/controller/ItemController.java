@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ItemController {
 
     private final ItemService itemService;

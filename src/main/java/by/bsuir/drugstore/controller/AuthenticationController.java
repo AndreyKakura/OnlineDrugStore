@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
@@ -48,7 +49,6 @@ public class AuthenticationController {
     }
 
     @GetMapping("/admin")
-//    @RolesAllowed("ROLE_ADMIN")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Map<String, String> admin() {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
