@@ -22,5 +22,5 @@ public class Image {
 
     @OneToOne
     @JoinColumn(name = "item_id")
-    private Item item;
+    private Product item;
 }

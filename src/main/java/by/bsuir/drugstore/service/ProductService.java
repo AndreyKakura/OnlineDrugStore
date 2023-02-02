@@ -2,11 +2,11 @@ package by.bsuir.drugstore.service;
 
 import by.bsuir.drugstore.dto.CreateItemDto;
 import by.bsuir.drugstore.dto.ItemDto;
-import by.bsuir.drugstore.mapper.ItemMapper;
+import by.bsuir.drugstore.mapper.ProductMapper;
 import by.bsuir.drugstore.model.Image;
-import by.bsuir.drugstore.model.Item;
+import by.bsuir.drugstore.model.Product;
 import by.bsuir.drugstore.repository.ImageRepository;
-import by.bsuir.drugstore.repository.ItemRepository;
+import by.bsuir.drugstore.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ItemService {
+public class ProductService {
 
-    private final ItemMapper itemMapper;
-    private final ItemRepository itemRepository;
+    private final ProductMapper productMapper;
+    private final ProductRepository productRepository;
     private final ImageRepository imageRepository;
 
     public void createItem(CreateItemDto createItemDto, MultipartFile file) {
@@ -31,18 +31,18 @@ public class ItemService {
             throw new RuntimeException(e);
         }
 
-        Item item = itemMapper.toModel(createItemDto);
-        item.setImage(image);
-        itemRepository.save(item);
+        Product product = productMapper.toModel(createItemDto);
+        product.setImage(image);
+        productRepository.save(product);
     }
 
     public ItemDto findById(Long id) {
-        return itemMapper.toDto(itemRepository.findById(id).orElseThrow());
+        return productMapper.toDto(productRepository.findById(id).orElseThrow());
     }
 
     public List<ItemDto> findAll() {
-        return itemRepository.findAll().stream()
-                .map(itemMapper::toDto)
+        return productRepository.findAll().stream()
+                .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -55,10 +55,10 @@ public class ItemService {
             throw new RuntimeException(e);
         }
 
-        Item updatedItem = itemMapper.toModel(itemDto);
+        Product updatedItem = productMapper.toModel(itemDto);
 
         updatedItem.setImage(image);
 
-        itemRepository.save(updatedItem);
+        productRepository.save(updatedItem);
     }
 }

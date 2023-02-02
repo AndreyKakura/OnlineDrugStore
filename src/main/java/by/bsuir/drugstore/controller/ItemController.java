@@ -3,7 +3,7 @@ package by.bsuir.drugstore.controller;
 import by.bsuir.drugstore.dto.CreateItemDto;
 import by.bsuir.drugstore.dto.ItemDto;
 import by.bsuir.drugstore.exception.BadRequestException;
-import by.bsuir.drugstore.service.ItemService;
+import by.bsuir.drugstore.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 public class ItemController {
 
-    private final ItemService itemService;
+    private final ProductService productService;
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -32,7 +32,7 @@ public class ItemController {
             throw new BadRequestException(bindingResult.getFieldErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
         }
-        itemService.createItem(createItemDto, file);
+        productService.createItem(createItemDto, file);
 
         return ResponseEntity.ok().build();
     }
@@ -40,12 +40,12 @@ public class ItemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemDto> findItemById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(itemService.findById(id));
+        return ResponseEntity.ok().body(productService.findById(id));
     }
 
     @GetMapping
     public ResponseEntity<List<ItemDto>> findAllItems() {
-        return ResponseEntity.ok().body(itemService.findAll());
+        return ResponseEntity.ok().body(productService.findAll());
     }
 
     @PatchMapping()
@@ -58,7 +58,7 @@ public class ItemController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
         }
 
-        itemService.updateItem(itemDto, file);
+        productService.updateItem(itemDto, file);
 
         return ResponseEntity.ok().build();
     }
