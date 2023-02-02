@@ -25,7 +25,7 @@ public class Product {
     @Column(name = "price")
     private Integer price;
 
-    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Image image;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,7 +33,7 @@ public class Product {
     private Category category;
 
     public void setImage(Image image) {
-        image.setItem(this);
+        image.setProduct(this);
         this.image = image;
     }
 }

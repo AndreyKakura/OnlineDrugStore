@@ -45,21 +45,12 @@ public class User implements UserDetails {
     @Column(name = "surname", length = 30)
     private String surname;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "person_role",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        for (Role role : getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return authorities;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

@@ -1,5 +1,6 @@
 package by.bsuir.drugstore.dto;
 
+import by.bsuir.drugstore.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,5 @@ import java.util.Set;
 @NoArgsConstructor
 public class AuthenticationResponseDto {
     private String token;
-    private Set<GrantedAuthority> authorities;
+    private Role role;
 }
