@@ -62,6 +62,9 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Purchase> purchases;
+
     @Override
     public String getPassword() {
         return password;
