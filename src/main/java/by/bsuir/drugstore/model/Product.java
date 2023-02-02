@@ -28,6 +28,10 @@ public class Product {
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Image image;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categories_id", nullable = false)
+    private Category category;
+
     public void setImage(Image image) {
         image.setItem(this);
         this.image = image;
