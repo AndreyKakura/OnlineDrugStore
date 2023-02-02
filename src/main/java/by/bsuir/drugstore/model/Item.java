@@ -1,10 +1,7 @@
 package by.bsuir.drugstore.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,6 +9,7 @@ import lombok.ToString;
 @Entity
 @Builder
 @Table(name = "items")
+@AllArgsConstructor
 public class Item {
 
     public Item(int count, Product product, Purchase purchase ) {

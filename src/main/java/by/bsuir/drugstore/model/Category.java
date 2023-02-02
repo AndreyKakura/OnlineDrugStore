@@ -1,10 +1,8 @@
 package by.bsuir.drugstore.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +12,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "categories")
+@AllArgsConstructor
 public class Category {
 
     public Category(String categoryName) {
