@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/items")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-public class ItemController {
+public class ProductController {
 
     private final ProductService productService;
 
