@@ -1,6 +1,7 @@
 package by.bsuir.drugstore.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
+@Builder
 @Table(name = "purchases")
 public class Purchase {
 
@@ -29,7 +31,7 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long purchaseId;
+    private Long id;
 
     @Column(name = "status")
     private String status;

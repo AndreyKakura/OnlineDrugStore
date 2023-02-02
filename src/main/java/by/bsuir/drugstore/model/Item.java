@@ -1,6 +1,7 @@
 package by.bsuir.drugstore.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
+@Builder
 @Table(name = "items")
 public class Item {
 
@@ -24,7 +26,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long itemId;
+    private Long id;
 
     @Column(name = "count")
     private int count;
