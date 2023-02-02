@@ -2,20 +2,25 @@ package by.bsuir.drugstore.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@Builder
 @Getter
-@Setter
-@NoArgsConstructor
-public class CreateItemDto {
+public class ProductDto {
+
+    @NotNull(message = "Id should not be null")
+    private Long id;
+
     @NotEmpty(message = "Name should not be empty")
     private String name;
 
     @NotEmpty(message = "Specification should not be empty")
     private String specification;
 
-    @NotNull(message = "Price should not be empty")
+    @NotNull(message = "Price should not be null")
     private Integer price;
+
+    @NotNull(message = "Image id should not be null")
+    private Long imageId;
 }

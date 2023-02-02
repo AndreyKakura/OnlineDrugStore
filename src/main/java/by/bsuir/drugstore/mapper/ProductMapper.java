@@ -1,30 +1,30 @@
 package by.bsuir.drugstore.mapper;
 
-import by.bsuir.drugstore.dto.CreateItemDto;
-import by.bsuir.drugstore.dto.ItemDto;
+import by.bsuir.drugstore.dto.CreateProductDto;
+import by.bsuir.drugstore.dto.ProductDto;
 import by.bsuir.drugstore.model.Product;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
-    public Product toModel(CreateItemDto createItemDto) {
+    public Product toModel(CreateProductDto createProductDto) {
         return Product.builder()
-                .name(createItemDto.getName())
-                .specification(createItemDto.getSpecification())
-                .price(createItemDto.getPrice()).build();
+                .name(createProductDto.getName())
+                .specification(createProductDto.getSpecification())
+                .price(createProductDto.getPrice()).build();
     }
 
-    public Product toModel(ItemDto itemDto) {
+    public Product toModel(ProductDto productDto) {
         return Product.builder()
-                .id(itemDto.getId())
-                .name(itemDto.getName())
-                .specification(itemDto.getSpecification())
-                .price(itemDto.getPrice())
+                .id(productDto.getId())
+                .name(productDto.getName())
+                .specification(productDto.getSpecification())
+                .price(productDto.getPrice())
                 .build();
     }
 
-    public ItemDto toDto(Product product) {
-        return ItemDto.builder()
+    public ProductDto toDto(Product product) {
+        return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .specification(product.getSpecification())

@@ -1,7 +1,7 @@
 package by.bsuir.drugstore.controller;
 
-import by.bsuir.drugstore.dto.CreateItemDto;
-import by.bsuir.drugstore.dto.ItemDto;
+import by.bsuir.drugstore.dto.CreateProductDto;
+import by.bsuir.drugstore.dto.ProductDto;
 import by.bsuir.drugstore.exception.BadRequestException;
 import by.bsuir.drugstore.service.ProductService;
 import jakarta.validation.Valid;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/items")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ProductController {
@@ -26,39 +26,39 @@ public class ProductController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createItem(@ModelAttribute @Valid CreateItemDto createItemDto, BindingResult bindingResult,
+    public ResponseEntity<?> createProduct(@ModelAttribute @Valid CreateProductDto createProductDto, BindingResult bindingResult,
                                         @RequestParam MultipartFile file) {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getFieldErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
         }
-        productService.createItem(createItemDto, file);
+        productService.createProduct(createProductDto, file);
 
         return ResponseEntity.ok().build();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemDto> findItemById(@PathVariable("id") Long id) {
+    public ResponseEntity<ProductDto> findProductById(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(productService.findById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<ItemDto>> findAllItems() {
+    public ResponseEntity<List<ProductDto>> findAllProducts() {
         return ResponseEntity.ok().body(productService.findAll());
     }
 
     @PatchMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> updateItem(@ModelAttribute @Valid ItemDto itemDto, BindingResult bindingResult,
-                                        @RequestParam MultipartFile file) {
+    public ResponseEntity<?> updateProduct(@ModelAttribute @Valid ProductDto productDto, BindingResult bindingResult,
+                                           @RequestParam MultipartFile file) {
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getFieldErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
         }
 
-        productService.updateItem(itemDto, file);
+        productService.updateProduct(productDto, file);
 
         return ResponseEntity.ok().build();
     }

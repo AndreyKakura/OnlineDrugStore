@@ -1,7 +1,7 @@
 package by.bsuir.drugstore.service;
 
-import by.bsuir.drugstore.dto.CreateItemDto;
-import by.bsuir.drugstore.dto.ItemDto;
+import by.bsuir.drugstore.dto.CreateProductDto;
+import by.bsuir.drugstore.dto.ProductDto;
 import by.bsuir.drugstore.mapper.ProductMapper;
 import by.bsuir.drugstore.model.Image;
 import by.bsuir.drugstore.model.Product;
@@ -23,7 +23,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ImageRepository imageRepository;
 
-    public void createItem(CreateItemDto createItemDto, MultipartFile file) {
+    public void createProduct(CreateProductDto createProductDto, MultipartFile file) {
         Image image = new Image();
         try {
             image.setBytes(file.getBytes());
@@ -31,23 +31,23 @@ public class ProductService {
             throw new RuntimeException(e);
         }
 
-        Product product = productMapper.toModel(createItemDto);
+        Product product = productMapper.toModel(createProductDto);
         product.setImage(image);
         productRepository.save(product);
     }
 
-    public ItemDto findById(Long id) {
+    public ProductDto findById(Long id) {
         return productMapper.toDto(productRepository.findById(id).orElseThrow());
     }
 
-    public List<ItemDto> findAll() {
+    public List<ProductDto> findAll() {
         return productRepository.findAll().stream()
                 .map(productMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public void updateItem(ItemDto itemDto, MultipartFile file) {
-        Image image = imageRepository.findById(itemDto.getImageId()).orElseThrow();
+    public void updateProduct(ProductDto productDto, MultipartFile file) {
+        Image image = imageRepository.findById(productDto.getImageId()).orElseThrow();
 
         try {
             image.setBytes(file.getBytes());
@@ -55,10 +55,10 @@ public class ProductService {
             throw new RuntimeException(e);
         }
 
-        Product updatedItem = productMapper.toModel(itemDto);
+        Product updatedProduct = productMapper.toModel(productDto);
 
-        updatedItem.setImage(image);
+        updatedProduct.setImage(image);
 
-        productRepository.save(updatedItem);
+        productRepository.save(updatedProduct);
     }
 }
