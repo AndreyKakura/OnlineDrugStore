@@ -35,6 +35,10 @@ public class Purchase {
     @Column(name = "status")
     private String status;
 
+    //куда доставлять
+    @Column(name = "place")
+    private String place;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase")
     private List<Item> items = new ArrayList<>();
 

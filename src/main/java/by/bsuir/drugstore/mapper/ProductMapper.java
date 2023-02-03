@@ -2,15 +2,23 @@ package by.bsuir.drugstore.mapper;
 
 import by.bsuir.drugstore.dto.CreateProductDto;
 import by.bsuir.drugstore.dto.ProductDto;
+import by.bsuir.drugstore.exception.MapperException;
 import by.bsuir.drugstore.model.Product;
+import by.bsuir.drugstore.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     public Product toModel(CreateProductDto createProductDto) {
         return Product.builder()
                 .name(createProductDto.getName())
                 .specification(createProductDto.getSpecification())
+                .category(categoryRepository.findById(createProductDto.getCategoryId()).orElseThrow(MapperException::new))
                 .price(createProductDto.getPrice()).build();
     }
 
@@ -29,6 +37,7 @@ public class ProductMapper {
                 .name(product.getName())
                 .specification(product.getSpecification())
                 .price(product.getPrice())
+                .categoryId(product.getCategory().getId())
                 .imageId(product.getImage().getId()).build();
     }
 }
