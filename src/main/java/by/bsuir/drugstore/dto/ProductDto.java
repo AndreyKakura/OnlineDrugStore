@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Builder
 @Getter
 public class ProductDto {
@@ -23,4 +25,7 @@ public class ProductDto {
 
     @NotNull(message = "Image id should not be null")
     private Long imageId;
+
+    @NotNull(message = "Category should not be empty")
+    private Long categoryId;
 }

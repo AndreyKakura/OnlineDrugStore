@@ -18,4 +18,7 @@ public class CreateProductDto {
 
     @NotNull(message = "Price should not be empty")
     private Integer price;
+
+    @NotNull(message = "Category should not be empty")
+    private Long categoryId;
 }
