@@ -1,5 +1,6 @@
 package by.bsuir.drugstore.mapper;
 
+import by.bsuir.drugstore.dto.CreateItemDto;
 import by.bsuir.drugstore.dto.CreatePurchaseDto;
 import by.bsuir.drugstore.dto.PurchaseDto;
 import by.bsuir.drugstore.model.Item;
@@ -18,11 +19,14 @@ public class PurchaseMapper {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private ItemMapper itemMapper;
+
     public Purchase toModel(CreatePurchaseDto createCategoryDto) {
         return Purchase.builder()
                 .status(createCategoryDto.getStatus())
                 .place(createCategoryDto.getPlace())
-                .items(findItemsByListId(createCategoryDto.getListItemId()))
+                .items(itemListDtoToListModel(createCategoryDto.getListItem()))
                 .build();
     }
 
@@ -31,7 +35,7 @@ public class PurchaseMapper {
                 .id(purchaseDto.getId())
                 .status(purchaseDto.getStatus())
                 .place(purchaseDto.getPlace())
-                .items(findItemsByListId(purchaseDto.getListItemId()))
+                .items(findItemsByListDto(purchaseDto.getListItemId()))
                 .build();
     }
 
@@ -44,15 +48,22 @@ public class PurchaseMapper {
                 .build();
     }
 
-    private List<Item> findItemsByListId(List<Long> listId) {
+    private List<Item> findItemsByListDto(List<Long> listId) {
         List<Item> items = new ArrayList<>();
         for (Long id : listId) {
             try {
                 items.add(itemRepository.findById(id).orElseThrow(Exception::new));
             } catch (Exception e) {
-                // TODO: 03.02.2023 сделать отдельный exception
+
             }
         }
         return items;
+    }
+
+    private List<Item> itemListDtoToListModel(List<CreateItemDto> listDto) {
+       return listDto.stream()
+               .map(d -> itemMapper.toModel(d))
+               .collect(Collectors.toList());
+
     }
 }

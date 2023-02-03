@@ -16,11 +16,11 @@ public class CreatePurchaseDto {
     private String Status;
 
     @NotNull(message = "Items id should not be empty")
-    private List<Long> listItemId = new ArrayList<>();
+    private List<CreateItemDto> listItem = new ArrayList<>();
 
     @NotEmpty(message = "Place should not be empty")
     private String place;
 
-    @NotNull(message = "Category should not be empty")
-    private Long categoryId;
+    @NotNull(message = "User id should not be empty")
+    private Long userId;
 }

@@ -24,6 +24,6 @@ public class PurchaseDto {
     @NotEmpty(message = "Place should not be empty")
     private String place;
 
-    @NotNull(message = "Category should not be empty")
-    private Long categoryId;
+    @NotNull(message = "User id should not be empty")
+    private Long userId;
 }
