@@ -13,7 +13,7 @@ import java.util.List;
 public class CreatePurchaseDto {
 
     @NotEmpty(message = "Status should not be empty")
-    private String Status;
+    private String status;
 
     @NotNull(message = "Items id should not be empty")
     private List<CreateItemDto> listItem = new ArrayList<>();

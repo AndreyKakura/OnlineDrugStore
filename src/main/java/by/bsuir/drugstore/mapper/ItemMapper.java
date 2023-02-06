@@ -20,11 +20,10 @@ public class ItemMapper {
     @Autowired
     private OrderRepository orderRepository;
 
-
-    public Item toModel(CreateItemDto itemDto) {
+    public Item toModel(CreateItemDto itemDto, Long purchaseId) {
         return Item.builder()
                 .count(itemDto.getCount())
-                .purchase(orderRepository.findById(itemDto.getPurchaseId()).orElseThrow(MapperException::new))
+                .purchase(orderRepository.findById(purchaseId).orElseThrow())
                 .product(productRepository.findById(itemDto.getProductId()).orElseThrow(MapperException::new))
                 .build();
     }

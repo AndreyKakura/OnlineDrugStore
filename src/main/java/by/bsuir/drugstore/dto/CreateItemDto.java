@@ -12,9 +12,6 @@ public class CreateItemDto {
     @NotEmpty(message = "Name should not be empty")
     private int count;
 
-    @NotNull(message = "purchase id should not be empty")
-    private Long purchaseId;
-
     @NotNull(message = "Product id should not be empty")
     private Long productId;
 }

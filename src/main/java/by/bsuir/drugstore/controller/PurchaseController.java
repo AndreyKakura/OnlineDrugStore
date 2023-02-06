@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,11 +49,13 @@ public class PurchaseController {
     }
 
     @GetMapping("/find_open")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<PurchaseDto>> findAllOpenPurchases() {
         return ResponseEntity.ok().body(purchaseService.findAllOpenPurchases());
     }
 
     @GetMapping("/find_close")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<PurchaseDto>> findAllClosePurchases() {
         return ResponseEntity.ok().body(purchaseService.findAllClosePurchases());
     }
@@ -70,6 +73,7 @@ public class PurchaseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deletePurchaseById(@PathVariable("id") Long id) {
         purchaseService.deletePurchase(id);
         return ResponseEntity.ok().build();

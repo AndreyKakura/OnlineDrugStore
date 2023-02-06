@@ -48,6 +48,11 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.findAll());
     }
 
+    @GetMapping("/by-category/{id}")
+    public ResponseEntity<List<ProductDto>> findAllProductsByCategory(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(productService.findAllByCategory(id));
+    }
+
     @PatchMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateProduct(@ModelAttribute @Valid ProductDto productDto, BindingResult bindingResult,

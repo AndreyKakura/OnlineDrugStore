@@ -61,4 +61,14 @@ public class ProductService {
 
         productRepository.save(updatedProduct);
     }
+
+    public List<ProductDto> findAllByCategory(Long id) {
+       return productRepository.findAll().stream()
+               .filter(product -> product.getCategory().getId().equals(id))
+               .map(product -> productMapper.toDto(product))
+               .collect(Collectors.toList());
+
+    }
+
+
 }

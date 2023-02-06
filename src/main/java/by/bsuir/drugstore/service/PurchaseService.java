@@ -9,8 +9,11 @@ import by.bsuir.drugstore.model.Item;
 import by.bsuir.drugstore.model.Purchase;
 import by.bsuir.drugstore.repository.ItemRepository;
 import by.bsuir.drugstore.repository.OrderRepository;
+import by.bsuir.drugstore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,10 +33,30 @@ public class PurchaseService {
     private OrderRepository orderRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ItemRepository itemRepository;
 
     public void createPurchase(CreatePurchaseDto createPurchaseDto) {
-        orderRepository.save(purchaseMapper.toModel(createPurchaseDto));
+        Purchase order = purchaseMapper.toModel(createPurchaseDto);
+        orderRepository.save(order);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Long userId = userRepository.findByUsername(auth.getName()).orElseThrow().getId();
+        Long lastPurchaseId = 0l;
+        for (Purchase purchase: orderRepository.findAll().stream()
+                .filter(purchase -> purchase.getUser().getId().equals(userId))
+                .collect(Collectors.toList())) {
+            if(purchase.getId() > lastPurchaseId) {
+                lastPurchaseId = purchase.getId();
+            }
+        }
+        if (lastPurchaseId != 0) {
+            for (Item item : itemListDtoToListModel(createPurchaseDto.getListItem(),lastPurchaseId)) {
+                itemRepository.save(item);
+            }
+        }
+
     }
 
     public PurchaseDto findById(Long id) {
@@ -79,5 +102,12 @@ public class PurchaseService {
             itemRepository.deleteById(item.getId());
         }
         orderRepository.deleteById(purchase.getId());
+    }
+
+    private List<Item> itemListDtoToListModel(List<CreateItemDto> listDto, Long id) {
+        return listDto.stream()
+                .map(d -> itemMapper.toModel(d,id))
+                .collect(Collectors.toList());
+
     }
 }

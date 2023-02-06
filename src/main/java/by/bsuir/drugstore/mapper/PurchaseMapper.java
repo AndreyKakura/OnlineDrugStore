@@ -26,7 +26,7 @@ public class PurchaseMapper {
         return Purchase.builder()
                 .status(createCategoryDto.getStatus())
                 .place(createCategoryDto.getPlace())
-                .items(itemListDtoToListModel(createCategoryDto.getListItem()))
+                //.items(itemListDtoToListModel(createCategoryDto.getListItem()))
                 .build();
     }
 
@@ -60,10 +60,5 @@ public class PurchaseMapper {
         return items;
     }
 
-    private List<Item> itemListDtoToListModel(List<CreateItemDto> listDto) {
-       return listDto.stream()
-               .map(d -> itemMapper.toModel(d))
-               .collect(Collectors.toList());
 
-    }
 }
