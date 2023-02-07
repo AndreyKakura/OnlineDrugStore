@@ -1,6 +1,5 @@
 package by.bsuir.drugstore.mapper;
 
-import by.bsuir.drugstore.dto.CreateItemDto;
 import by.bsuir.drugstore.dto.CreatePurchaseDto;
 import by.bsuir.drugstore.dto.PurchaseDto;
 import by.bsuir.drugstore.model.Item;
@@ -35,21 +34,11 @@ public class PurchaseMapper {
                 .build();
     }
 
-    public Purchase toModel(PurchaseDto purchaseDto) {
-        return Purchase.builder()
-                .id(purchaseDto.getId())
-                .status(purchaseDto.getStatus())
-                .place(purchaseDto.getPlace())
-                .items(findItemsByListDto(purchaseDto.getListItemId()))
-                .build();
-    }
-
-
     public PurchaseDto toDto(Purchase purchase) {
         return PurchaseDto.builder()
                 .id(purchase.getId())
                 .status(purchase.getStatus())
-                .listItemId(purchase.getItems().stream().map(Item::getId).collect(Collectors.toList()))
+                .listItemDto(purchase.getItems().stream().map(item -> itemMapper.toDto(item)).collect(Collectors.toList()))
                 .build();
     }
 

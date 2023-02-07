@@ -18,8 +18,8 @@ public class PurchaseDto {
     @NotEmpty(message = "Status should not be empty")
     private String status;
 
-    @NotNull(message = "Items id should not be empty")
-    private List<Long> listItemId = new ArrayList<>();
+    @NotNull(message = "Items should not be empty")
+    private List<ItemDto> listItemDto = new ArrayList<>();
 
     @NotEmpty(message = "Place should not be empty")
     private String place;
