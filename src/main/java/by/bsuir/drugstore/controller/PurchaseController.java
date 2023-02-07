@@ -26,14 +26,8 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     @PostMapping
-    public ResponseEntity<?> createPurchase(@ModelAttribute @Valid CreatePurchaseDto createPurchaseDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException(bindingResult.getFieldErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
-        }
-
+    public ResponseEntity<?> createPurchase(@RequestBody @Valid CreatePurchaseDto createPurchaseDto) {
         purchaseService.createPurchase(createPurchaseDto);
-
         return ResponseEntity.ok().build();
     }
 

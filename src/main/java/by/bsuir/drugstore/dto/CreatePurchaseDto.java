@@ -2,14 +2,18 @@ package by.bsuir.drugstore.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreatePurchaseDto {
 
     @NotEmpty(message = "Status should not be empty")

@@ -29,14 +29,8 @@ public class CategoryController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> createCategory(@ModelAttribute @Valid CreateCategoryDto createCategoryDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException(bindingResult.getFieldErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; ")));
-        }
-
+    public ResponseEntity<?> createCategory(@RequestBody @Valid CreateCategoryDto createCategoryDto) {
         categoryService.createCategory(createCategoryDto);
-
         return ResponseEntity.ok().build();
     }
 

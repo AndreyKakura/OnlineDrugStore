@@ -6,6 +6,7 @@ import by.bsuir.drugstore.dto.PurchaseDto;
 import by.bsuir.drugstore.model.Item;
 import by.bsuir.drugstore.model.Purchase;
 import by.bsuir.drugstore.repository.ItemRepository;
+import by.bsuir.drugstore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +23,15 @@ public class PurchaseMapper {
     @Autowired
     private ItemMapper itemMapper;
 
-    public Purchase toModel(CreatePurchaseDto createCategoryDto) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public Purchase toModel(CreatePurchaseDto createPurchaseDto) {
         return Purchase.builder()
-                .status(createCategoryDto.getStatus())
-                .place(createCategoryDto.getPlace())
-                //.items(itemListDtoToListModel(createCategoryDto.getListItem()))
+                .status(createPurchaseDto.getStatus())
+                .place(createPurchaseDto.getPlace())
+                .user(userRepository.findById(createPurchaseDto.getUserId()).orElseThrow())
+                //.items(itemListDtoToListModel(createPurchaseDto.getListItem()))
                 .build();
     }
 
