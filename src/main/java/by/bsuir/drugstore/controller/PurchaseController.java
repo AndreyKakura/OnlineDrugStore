@@ -59,6 +59,11 @@ public class PurchaseController {
         return ResponseEntity.ok().body(purchaseService.findAllByUserId(id));
     }
 
+    @GetMapping("find_all_by_current_user")
+    public ResponseEntity<List<PurchaseDto>> findAllPurchasesByCurrentUser() {
+        return ResponseEntity.ok().body(purchaseService.findAllByCurrentUser());
+    }
+
 
     @PutMapping("confirm/{id}")
     public ResponseEntity<?> confirmPurchase(@PathVariable("id") Long id) {

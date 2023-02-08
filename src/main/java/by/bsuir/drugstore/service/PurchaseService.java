@@ -110,4 +110,15 @@ public class PurchaseService {
                 .collect(Collectors.toList());
 
     }
+
+    public List<PurchaseDto> findAllByCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findByUsername(auth.getName())
+                .orElseThrow()
+                .getPurchases()
+                .stream()
+                .map(purchase -> purchaseMapper.toDto(purchase))
+                .collect(Collectors.toList());
+    }
+
 }
