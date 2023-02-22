@@ -47,7 +47,11 @@ public class ProductService {
     }
 
     public void updateProduct(ProductDto productDto, MultipartFile file) {
-        Image image = imageRepository.findById(productDto.getImageId()).orElseThrow();
+
+        Product productFromDb = productRepository.findById(productDto.getId()).get();
+        Product updatedProduct = productMapper.toModel(productDto);
+
+        Image image = imageRepository.findById(productFromDb.getImage().getId()).orElseThrow();
 
         try {
             image.setBytes(file.getBytes());
@@ -55,18 +59,16 @@ public class ProductService {
             throw new RuntimeException(e);
         }
 
-        Product updatedProduct = productMapper.toModel(productDto);
-
         updatedProduct.setImage(image);
 
         productRepository.save(updatedProduct);
     }
 
     public List<ProductDto> findAllByCategory(Long id) {
-       return productRepository.findAll().stream()
-               .filter(product -> product.getCategory().getId().equals(id))
-               .map(product -> productMapper.toDto(product))
-               .collect(Collectors.toList());
+        return productRepository.findAll().stream()
+                .filter(product -> product.getCategory().getId().equals(id))
+                .map(product -> productMapper.toDto(product))
+                .collect(Collectors.toList());
 
     }
 

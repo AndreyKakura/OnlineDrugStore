@@ -23,8 +23,7 @@ public class ProductDto {
     @NotNull(message = "Price should not be null")
     private Integer price;
 
-    @NotNull(message = "Image id should not be null")
-    private Long imageId;
+    private String imageUrl;
 
     @NotNull(message = "Category should not be empty")
     private Long categoryId;
