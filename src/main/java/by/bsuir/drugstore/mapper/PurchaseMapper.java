@@ -39,6 +39,8 @@ public class PurchaseMapper {
                 .id(purchase.getId())
                 .status(purchase.getStatus())
                 .listItemDto(purchase.getItems().stream().map(item -> itemMapper.toDto(item)).collect(Collectors.toList()))
+                .place(purchase.getPlace())
+                .userId(purchase.getUser().getId())
                 .build();
     }
 
