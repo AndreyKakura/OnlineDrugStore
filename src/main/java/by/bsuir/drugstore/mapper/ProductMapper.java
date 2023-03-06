@@ -28,6 +28,7 @@ public class ProductMapper {
                 .name(productDto.getName())
                 .specification(productDto.getSpecification())
                 .price(productDto.getPrice())
+                .category(categoryRepository.findById(productDto.getCategoryId()).get())
                 .build();
     }
 
@@ -38,6 +39,6 @@ public class ProductMapper {
                 .specification(product.getSpecification())
                 .price(product.getPrice())
                 .categoryId(product.getCategory().getId())
-                .imageId(product.getImage().getId()).build();
+                .imageUrl("localhost:8080/images/" + product.getImage().getId()).build();
     }
 }
